@@ -1,0 +1,4 @@
+discord
+PyNaCl
+pandas
+dnspython
