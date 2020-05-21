@@ -1,1 +1,1 @@
-worker: python BinotBOT.py
+worker: python bot.py
