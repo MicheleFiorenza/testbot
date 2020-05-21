@@ -4,7 +4,7 @@ from discord.ext import commands
 
 #####################################################################	
 
-TOKEN = 'NTc0NjM3MTg1OTI4NzkwMDE3.XsaqNA.TsaKkLDclaHZ33qoKZd5KQMJgbc'
+TOKEN = ''
 client = commands.Bot(command_prefix = '!')
 
 for filename in os.listdir("./cogs"):			
