@@ -1,12 +1,7 @@
 # discordBot
 discordbot 1.0
-Collegabile con heroku
 
 
-#Json da sostituire con postgresql di heroku
+#manca database
 
 
-#"eventi" utilizzabile senza json
-
-
-#modificare gestione ruoli e gestione server
