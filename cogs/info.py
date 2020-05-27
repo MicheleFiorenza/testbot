@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from fun_1 import check_basic_channels
 
 
 #####################################################################
@@ -13,7 +14,12 @@ class info(commands.Cog):
 	
 	@commands.command(aliases = ["info_server", "server_info", "info"], usage = "", description = "Basic info about the server")#ritorna le info del server
 	async def info_(self, ctx):
-		await ctx.channel.purge(limit = 1)
+		#await ctx.channel.purge(limit = 1)
+		channels = check_basic_channels(ctx.guild.text_channels)
+		if channels[1][0] == "bot-channel":
+			channel_id = channels[1][1]
+		else:
+			await ctx.send("bot-channel not found")
 		guild = ctx.guild
 		name = guild.name
 		owner = guild.owner
@@ -29,7 +35,8 @@ class info(commands.Cog):
 		embed.add_field(name = "*Creation date:*", value = creation_time, inline = False)
 		embed.add_field(name = "*Region*", value = region, inline = False)
 		embed.add_field(name = "*Incativity time in seconds:*", value = afk, inline = False)
-		await ctx.channel.send(embed = embed)
+
+		await ctx.guild.get_channel(channel_id).send(embed = embed)
 
 	
 	#################################################################
@@ -37,7 +44,12 @@ class info(commands.Cog):
 
 	@commands.command(aliases = ["emoji", "emote", "emotes", "reactions"], usage = "", description = "Shows the server's custom emojis")
 	async def emojis(self, ctx):	
-		await ctx.channel.purge(limit = 1)
+		#await ctx.channel.purge(limit = 1)
+		channels = check_basic_channels(ctx.guild.text_channels)
+		if channels[1][0] == "bot-channel":
+			channel_id = channels[1][1]
+		else:
+			await ctx.send("bot-channel not found")
 		guild = ctx.guild
 		emojis = guild.emojis
 		icon = str(guild.icon_url)
@@ -46,7 +58,7 @@ class info(commands.Cog):
 		if not emojis: embiid.add_field(name = "*ERROR*", value = "No custom emojis found")
 		for p in emojis:
 			embiid.add_field(name = p.name, value = str(p))		
-		await ctx.channel.send(embed = embiid)
+		await ctx.guild.get_channel(channel_id).send(embed = embiid)
 
 	
 	#################################################################
@@ -54,7 +66,12 @@ class info(commands.Cog):
 	@commands.command(aliases = ["infoc", "info_channels", "channelslist", "infochannels"], usage = "", description = "Shows a list of the server's channels")
 	
 	async def channels(self, ctx):
-		await ctx.channel.purge(limit = 1)
+		#await ctx.channel.purge(limit = 1)
+		channels = check_basic_channels(ctx.guild.text_channels)
+		if channels[1][0] == "bot-channel":
+			channel_id = channels[1][1]
+		else:
+			await ctx.send("bot-channel not found")
 		guild = ctx.guild
 		icon = str(guild.icon_url)
 		embed = discord.Embed(title = "***Channels***", colour = 0xcdef01 )
@@ -63,7 +80,7 @@ class info(commands.Cog):
 		for p in channels_by_category:
 			for i in range(len(p[1])):
 				embed.add_field(name = p[0], value = p[1][i], inline = False)
-		await ctx.channel.send(embed = embed)
+		await ctx.guild.get_channel(channel_id).send(embed = embed)
 
 	
 	#################################################################
@@ -72,8 +89,13 @@ class info(commands.Cog):
 	@commands.command(aliases = ["info_bot", "bot", "botinfo"], usage = "", description = "Shows informations about the bot")
 	
 	async def infobot(self,  ctx):
-		await ctx.channel.purge(limit = 1)
-		embed = discord.Embed(title = "***BOT_NAME_HERE***", colour = 0xff0000 )
+		#await ctx.channel.purge(limit = 1)
+		channels = check_basic_channels(ctx.guild.text_channels)
+		if channels[1][0] == "bot-channel":
+			channel_id = channels[1][1]
+		else:
+			await ctx.send("bot-channel not found")
+		embed = discord.Embed(title = "P-800", colour = 0xff0000 )
 		icon = self.client.user.avatar_url
 		n_guilds = len(self.client.guilds)
 		latency = round(self.client.latency * 1000)
@@ -84,7 +106,7 @@ class info(commands.Cog):
 		embed.add_field(name = "*For info about my commands type:*", value = "***!help***", inline = False)
 		embed.add_field(name = "*Number of servers where i work:*", value = n_guilds, inline = False)
 		embed.add_field(name = "*Latency in ms:*", value = latency, inline = False)
-		await ctx.channel.send(embed = embed)
+		await ctx.guild.get_channel(channel_id).send(embed = embed)
 
 
 	#################################################################
@@ -92,7 +114,12 @@ class info(commands.Cog):
 	
 	@commands.command(aliases = ["userinfo", "user_info"], usage = " @user", description = "Shows some info about the mentiones user")
 	async def user(self,  ctx, user: discord.Member):
-		await ctx.channel.purge(limit = 1)
+		#await ctx.channel.purge(limit = 1)
+		channels = check_basic_channels(ctx.guild.text_channels)
+		if channels[1][0] == "bot-channel":
+			channel_id = channels[1][1]
+		else:
+			await ctx.send("bot-channel not found")
 		icon = user.avatar_url
 		joined_at = str(user.joined_at)[:-7]
 		nick = user.nick
@@ -105,7 +132,7 @@ class info(commands.Cog):
 		if premium: embed.add_field(name = "*Premium since:*", value = premium, inline = False)
 		embed.add_field(name = "*Member since:*", value = joined_at, inline = False)
 		embed.add_field(name = "*Top rank:*", value = top_role.name, inline = False)
-		await ctx.channel.send(embed = embed)
+		await ctx.guild.get_channel(channel_id).send(embed = embed)
 
 
 	#################################################################

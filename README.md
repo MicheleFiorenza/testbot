@@ -1,19 +1,12 @@
 # discordBot
 discordbot 1.0
-
-aggiunto il comando clear
-
-aggiunta gestione errori
-
-aggiunti i comandi info
-
-aggiunti ban-kick-unban
-
-aggiunto file variabili var
-
-aggiunta gestione nuovi utenti
+Collegabile con heroku
 
 
-#manca database
+#Json da sostituire con postgresql di heroku
 
 
+#"eventi" utilizzabile senza json
+
+
+#modificare gestione ruoli e gestione server

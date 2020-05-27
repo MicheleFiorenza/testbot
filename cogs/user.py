@@ -29,8 +29,13 @@ class user(commands.Cog):
 		embed = discord.Embed(title = "***ATTENTION!***", description = "something something", colour = 0x666666)
 		embed.add_field(name = "Name:", value = member.name, inline = False)
 		embed.set_thumbnail(url = member.avatar_url)
-		await member.guild.system_channel.send(embed = embed)
 		await member.add_roles(member.guild.roles[1])
+		channels = check_basic_channels(member.guild.text_channels)
+		if channels[1][0] == "bot-channel":
+			channel_id = channels[1][1]
+			await member.guild.get_channel(channel_id).send(embed = embed)
+		else:	
+			await member.guild.system_channel.send(embed = embed)
 
 
 	#################################################################
@@ -47,8 +52,13 @@ class user(commands.Cog):
 		embed.add_field(name = "***Who banned him:***", value = ctx.author, inline = False)
 		icon = self.client.user.avatar_url
 		embed.set_thumbnail(url = str(icon))
+		channels = check_basic_channels(ctx.guild.text_channels)
+		if channels[1][0] == "bot-channel":
+			channel_id = channels[1][1]
+			await ctx.guild.get_channel(channel_id).send(f"{member.mention}", embed = embed)
+		else:	
+			await ctx.guild.system_channel.send(f"{member.mention}", embed = embed)
 		await member.ban(reason = reason)
-		await ctx.guild.system_channel.send(f"{member.mention}", embed = embed)
 
 
 	#################################################################
@@ -65,8 +75,13 @@ class user(commands.Cog):
 		embed.add_field(name = "***Who kicked him:***", value = ctx.author, inline = False)
 		icon = self.client.user.avatar_url
 		embed.set_thumbnail(url = str(icon))
+		channels = check_basic_channels(ctx.guild.text_channels)
+		if channels[1][0] == "bot-channel":
+			channel_id = channels[1][1]
+			await ctx.guild.get_channel(channel_id).send(f"{member.mention}", embed = embed)
+		else:	
+			await ctx.guild.system_channel.send(f"{member.mention}", embed = embed)
 		await member.kick(reason = reason)
-		await ctx.guild.system_channel.send(f"{member.mention}", embed = embed)
 
 
 	#################################################################
@@ -88,8 +103,12 @@ class user(commands.Cog):
 				icon = self.client.user.avatar_url
 				embed.set_thumbnail(url = str(icon))
 				await ctx.guild.unban(user)
-				await ctx.author.send("Done")
-				await ctx.guild.system_channel.send(f"{user.mention} can re-join the server!", embed = embed )
+				channels = check_basic_channels(ctx.guild.text_channels)
+				if channels[1][0] == "bot-channel":
+					channel_id = channels[1][1]
+					await ctx.guild.get_channel(channel_id).send(f"{user.mention} can re-join the server!", embed = embed )
+				else:	
+					await ctx.guild.system_channel.send(f"{user.mention} can re-join the server!", embed = embed )
 				if not user.bot:
 					await user.send(f"You can now re-join {ctx.guild.name}")
 		return
